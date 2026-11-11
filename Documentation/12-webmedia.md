@@ -30,6 +30,10 @@ docker run -d --name webmedia -p 8082:8080 \
 
 `WEBMEDIA_URL` est l'adresse publique du port **VisuWeb** de la passerelle (8080), et non de son port websocket, suivie de `?action=webmedia`. C'est le navigateur du visiteur qui l'interroge.
 
+## Contrôle de santé
+
+Celui de l'image de base (`trafex/php-nginx`) : le serveur web et PHP doivent répondre dans le conteneur.
+
 ## Vérifier
 
 Ouvrir la page : elle demande un code Pin. L'adresse utilisée se lit dans le fichier `webmedia.js` servi par le conteneur.

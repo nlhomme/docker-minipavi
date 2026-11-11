@@ -26,6 +26,10 @@ Déployer les cinq images d'un coup avec le build pack Docker Compose de Coolify
 
 **Le port.** Pour un dépôt Git, Coolify ne lit pas le port dans le Dockerfile : il propose `3000` par défaut. « Ports Exposés » est donc à renseigner à la main. Avec un mauvais port, le conteneur tourne mais le site répond par une **erreur 502**.
 
+## Contrôle de santé
+
+Les cinq images déclarent leur propre contrôle de santé : Coolify l'utilise tel quel, il n'y a rien à régler dans la ressource.
+
 ## Variables
 
 Dans les variables d'environnement de chaque ressource :

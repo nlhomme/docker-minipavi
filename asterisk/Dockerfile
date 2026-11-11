@@ -76,7 +76,10 @@ RUN ldconfig \
 # Configuration : écrite au démarrage à partir des variables d'environnement
 COPY asterisk/*.template /etc/asterisk-templates/
 COPY --from=src /src/VERSION /MINIPAVI_VERSION
-COPY asterisk/start-asterisk.sh /
+COPY asterisk/start-asterisk.sh asterisk/healthcheck.sh /
+
+# Contrôle de santé : Asterisk doit répondre à sa propre ligne de commande (voir healthcheck.sh)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 CMD ["/healthcheck.sh"]
 
 # SIP (5060) et RTP (10000-10100) en UDP : à publier. AMI (5038) : réservé à la passerelle, à ne pas publier.
 EXPOSE 5060/udp 10000-10100/udp

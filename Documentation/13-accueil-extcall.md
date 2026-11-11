@@ -50,6 +50,10 @@ Le contenu des deux services se règle dans deux fichiers du dépôt, livrés av
 
 Après une modification, reconstruire l'image. Ces fichiers ne sont pas lisibles depuis le web.
 
+## Contrôle de santé
+
+Celui de l'image de base (`trafex/php-nginx`) : le serveur web et PHP doivent répondre dans le conteneur.
+
 ## Vérifier
 
 Un navigateur qui ouvre `/MiniPaviAcc/` ne voit pas le service lui-même : les services ne répondent qu'à la passerelle. Le bon contrôle est de se connecter avec l'émulateur : la page d'accueil « Passerelle MINIPAVI » doit s'afficher, avec son annuaire.

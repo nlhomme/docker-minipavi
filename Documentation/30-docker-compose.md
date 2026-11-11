@@ -17,6 +17,7 @@ docker compose up -d --build
 L'émulateur est alors à `http://localhost:8081/` et VisuWeb à `http://localhost:8080/`.
 
 ```bash
+docker compose ps                  # l'état de chaque service, avec son contrôle de santé (healthy)
 docker compose logs -f minipavi    # suivre les logs d'un service
 docker compose down                # tout arrêter
 ```

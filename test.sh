@@ -63,6 +63,11 @@ docker logs test-mp 2>&1 | grep -q 'Port TCP Asterisk: 8183'
 docker logs test-mp 2>&1 | grep -q 'IP AMI: test-ast'
 docker exec test-mp grep -q '<httppwd>p&amp;ss&lt;w$rd</httppwd>' minipavi.conf
 [ -n "$(docker ps -q -f name=test-mp)" ] || { echo "la passerelle s'est arrêtée"; exit 1; }
+# Son contrôle de santé réussit quand elle tourne, échoue quand elle ne tourne pas, et ne laisse rien dans les logs
+lines=$(docker logs test-mp 2>&1 | wc -l)
+docker exec test-mp php healthcheck.php
+[ "$(docker logs test-mp 2>&1 | wc -l)" -eq "$lines" ] || { echo "le contrôle de santé écrit dans les logs"; exit 1; }
+fails docker run --rm test-minipavi php healthcheck.php
 # Sans MINIPAVI_AMI_PASSWORD, la section <asterisk> doit disparaître de la configuration
 docker run --rm -e MINIPAVI_HTTP_PASSWORD=x -e MINIPAVI_VIEWER_URL=https://emul.test/ test-minipavi \
     php -r 'require "render-conf.php"; exit(str_contains(render_conf("minipavi.conf.template"), "<asterisk>") ? 1 : 0);'
@@ -89,6 +94,13 @@ for file in EXTcall/extcall.conf EXTcall/extcall.conf.template MiniPaviAcc/pavia
     fails docker exec test-sv wget -qO /dev/null "http://localhost:8080/$file"
 done
 
+echo "contrôles de santé"
+# Chaque image doit déclarer un contrôle de santé (les images web héritent de celui de leur image de base)
+for part in minipavi emulminitel webmedia accueil-extcall; do
+    [ "$(docker inspect -f '{{if .Config.Healthcheck}}oui{{end}}' "test-$part")" = oui ] \
+        || { echo "test-$part : pas de contrôle de santé"; exit 1; }
+done
+
 echo "variables obligatoires"
 fails docker run --rm test-emulminitel true
 fails docker run --rm test-webmedia true
@@ -103,6 +115,9 @@ if [ "$WITH_ASTERISK" = asterisk ]; then
         -e ASTERISK_EXTERNAL_ADDRESS=203.0.113.1 -e MINIPAVI_HOST=test-mp -e AMI_PASSWORD=amitest test-asterisk >/dev/null
     sleep 15
     docker exec test-ast asterisk -rx 'module show like minipavi' | grep -q 'app_softmodemminipavi.so.*Running'
+    [ "$(docker inspect -f '{{if .Config.Healthcheck}}oui{{end}}' test-asterisk)" = oui ] \
+        || { echo "test-asterisk : pas de contrôle de santé"; exit 1; }
+    docker exec test-ast /healthcheck.sh
     docker exec test-ast asterisk -rx 'dialplan show minipavi' | grep -q 'SoftmodemMinipavi("test-mp", 8183'
     docker exec test-ast asterisk -rx 'pjsip show endpoints' | grep -q 'trunk'
     docker exec test-ast grep -q 'password=s\\;p' /etc/asterisk/pjsip.conf

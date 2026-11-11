@@ -59,6 +59,12 @@ Les correspondances avec les variables de l'image Asterisk sont dans [02 - Les l
 
 La signification de chaque réglage est décrite dans la documentation de MiniPavi (`MiniPavi-doc.pdf`, dans le dépôt de l'auteur). Un réglage ajouté par une nouvelle version de MiniPavi n'apparaît pas tout seul dans ce fichier : il faut l'y ajouter.
 
+## Contrôle de santé
+
+Toutes les 30 secondes, Docker lance `minipavi/healthcheck.php` dans le conteneur : la passerelle doit répondre sur son port VisuWeb/WebMedia (8080). La requête est une interrogation WebMedia avec un code Pin inexistant : elle ne demande pas de mot de passe, ne compte pas comme une connexion de Minitel et n'écrit rien dans les logs.
+
+Après trois échecs de suite, le conteneur est marqué `unhealthy`. Le port websocket (8181) n'est pas interrogé directement : c'est le même processus qui sert les deux ports.
+
 ## Vérifier
 
 ```bash

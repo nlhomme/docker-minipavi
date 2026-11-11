@@ -30,6 +30,18 @@ Une variable doit être disponible **à l'exécution** du conteneur. Si l'héber
 - **La passerelle affiche « ERR#03 Réponse non JSON »** : le service appelé a renvoyé autre chose qu'une réponse de service, souvent une erreur PHP. Lire les logs du conteneur du service.
 - **La passerelle n'atteint pas un service** : depuis un conteneur, `localhost` désigne le conteneur lui-même. Utiliser le nom du conteneur du service, sur un réseau Docker commun ([02](02-liaisons.md)).
 
+## Le conteneur est marqué `unhealthy`
+
+Le contrôle de santé de l'image a échoué trois fois de suite : le programme ne répond plus, même si le conteneur tourne encore. Le détail des derniers contrôles se lit avec :
+
+```bash
+docker inspect -f '{{json .State.Health}}' <nom>
+```
+
+- **Passerelle** : son port 8080 ne répond plus. Lire ses logs, puis redémarrer le conteneur.
+- **Asterisk** : le serveur ne répond plus à sa ligne de commande. Pendant les 30 premières secondes après le démarrage, l'état `starting` est normal.
+- **Images web** : le serveur web ou PHP ne répond plus dans le conteneur.
+
 ## Après une reconstruction, quelque chose ne marche plus
 
 La version de MiniPavi a peut-être changé. La comparer dans les logs (`MiniPavi version …`) et suivre [01 - La version de MiniPavi](01-version-minipavi.md).
