@@ -1,0 +1,21 @@
+;
+; AMI - The Asterisk Manager Interface
+;
+; Modèle : les ${VARIABLES} sont remplacées au démarrage du conteneur (voir Documentation/14-asterisk.md).
+; Repris de l'exemple fourni avec MiniPavi.
+;
+; ---------------------------- SECURITY NOTE -------------------------------
+; Ne jamais publier le port de l'AMI (5038) sur Internet : il ne doit être
+; joignable que par la passerelle MiniPavi.
+;
+[general]
+enabled = yes
+
+port = 5038
+bindaddr = 0.0.0.0
+
+[${AMI_USER}]
+secret = ${AMI_PASSWORD}
+permit=${AMI_PERMIT}
+read = call
+write = all

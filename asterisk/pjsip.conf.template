@@ -1,0 +1,61 @@
+; PJSIP Configuration
+;
+; Modèle : les ${VARIABLES} sont remplacées au démarrage du conteneur (voir Documentation/14-asterisk.md).
+; Repris de l'exemple fourni avec MiniPavi (ligne SIP unique, ici nommée "trunk").
+;
+; UDP transport behind NAT
+;
+
+[transport-udp-nat]
+type=transport
+protocol=udp
+bind=0.0.0.0
+local_net=${ASTERISK_LOCAL_NET}
+external_media_address=${ASTERISK_EXTERNAL_ADDRESS}
+external_signaling_address=${ASTERISK_EXTERNAL_ADDRESS}
+tos = 0x68
+cos = 3
+
+; **********************************************
+;
+; ****         MINIPAVI                     ****
+;
+; **********************************************
+
+[trunk]
+type=registration
+transport=transport-udp-nat
+outbound_auth=trunk
+server_uri=sip:${SIP_SERVER}
+client_uri=sip:${SIP_USERNAME}@${SIP_SERVER}
+retry_interval=600
+max_retries=100000
+forbidden_retry_interval=600
+expiration=1800
+line=yes
+endpoint=trunk
+
+[trunk]
+type=auth
+auth_type=userpass
+password=${SIP_PASSWORD}
+username=${SIP_USERNAME}
+
+[trunk]
+type=endpoint
+transport=transport-udp-nat
+context=minipavi
+disallow=all
+allow=alaw,ulaw,gsm
+outbound_auth=trunk
+rtp_symmetric=yes
+force_rport=yes
+tos_audio = 0xB8
+cos_audio = 6
+aors=trunk
+from_user=${SIP_USERNAME}
+
+[trunk]
+type=identify
+endpoint=trunk
+match=${SIP_SERVER}

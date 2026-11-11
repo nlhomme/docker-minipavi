@@ -1,8 +1,8 @@
 ##
 # NAME             : nlhomme/nlhomme-minipavi
-# TO_BUILD         : docker build --rm -t nlhomme/nlhomme-minipavi:latest . -f Dockerfile-minipavi
+# TO_BUILD         : docker build --rm -t nlhomme/nlhomme-minipavi:latest . -f minipavi/Dockerfile
 # TO_RUN           : docker run --rm -d -e MINIPAVI_HTTP_PASSWORD=... -e MINIPAVI_VIEWER_URL=... nlhomme/nlhomme-minipavi:latest
-# Variables        : voir README.md
+# Variables        : voir Documentation/10-passerelle.md
 ##
 
 # --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)
@@ -37,6 +37,6 @@ COPY --from=src /src/lib lib
 RUN mkdir logs recordings sockets stats
 
 # Configuration : écrite au démarrage à partir des variables d'environnement
-COPY minipavi.conf.template start-minipavi.php ./
+COPY minipavi/minipavi.conf.template minipavi/start-minipavi.php commun/render-conf.php ./
 
 CMD [ "php", "./start-minipavi.php" ]

@@ -1,8 +1,8 @@
 ##
-# NAME             : nlhomme/nlhomme-emulminitel
-# TO_BUILD         : docker build --rm -t nlhomme/nlhomme-emulminitel:latest . -f Dockerfile-emulminitel
-# TO_RUN           : docker run --rm -d -e GATEWAY_URL=wss://passerelle.exemple.org:443/ nlhomme/nlhomme-emulminitel:latest
-# Variables        : voir README.md
+# NAME             : nlhomme/nlhomme-webmedia
+# TO_BUILD         : docker build --rm -t nlhomme/nlhomme-webmedia:latest . -f webmedia/Dockerfile
+# TO_RUN           : docker run --rm -d -e WEBMEDIA_URL='https://visuweb.exemple.org?action=webmedia' nlhomme/nlhomme-webmedia:latest
+# Variables        : voir Documentation/12-webmedia.md
 ##
 
 # --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)
@@ -22,7 +22,7 @@ RUN set -eo pipefail; \
     mv minipavi-* /src; \
     echo "$V" > /src/VERSION
 
-# --- Étape 2 : l'émulateur
+# --- Étape 2 : la page WebMedia
 # https://hub.docker.com/r/trafex/php-nginx
 FROM trafex/php-nginx:latest
 
@@ -30,10 +30,10 @@ FROM trafex/php-nginx:latest
 # https://github.com/ai-robots-txt/ai.robots.txt
 RUN wget https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/refs/heads/main/robots.txt -O /var/www/html/robots.txt
 
-# Copie des données du site Minitel (modifiables par "nobody" : l'adresse de la passerelle y est écrite au démarrage)
-COPY --from=src --chown=nobody /src/emulminitel/. /var/www/html/
+# Copie de la page WebMedia (modifiable par "nobody" : l'adresse de la passerelle y est écrite au démarrage)
+COPY --from=src --chown=nobody /src/webmedia/. /var/www/html/
 COPY --from=src /src/VERSION /MINIPAVI_VERSION
-COPY start-emulminitel.sh /start-emulminitel.sh
+COPY commun/start-web.sh commun/render-conf.php /
 
-ENTRYPOINT ["/start-emulminitel.sh"]
+ENTRYPOINT ["/start-web.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

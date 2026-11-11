@@ -1,0 +1,39 @@
+##
+# NAME             : nlhomme/nlhomme-emulminitel
+# TO_BUILD         : docker build --rm -t nlhomme/nlhomme-emulminitel:latest . -f emulminitel/Dockerfile
+# TO_RUN           : docker run --rm -d -e GATEWAY_URL=wss://passerelle.exemple.org:443/ nlhomme/nlhomme-emulminitel:latest
+# Variables        : voir Documentation/11-emulateur.md
+##
+
+# --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)
+FROM alpine:3 AS src
+
+# Version (tag) de MiniPavi à installer ; "latest" ou vide = dernière release publiée
+ARG MINIPAVI_VERSION=latest
+
+# Docker revérifie cette réponse à chaque build : le cache n'est invalidé que si une nouvelle release est sortie
+ADD https://api.github.com/repos/ludosevilla/minipavi/releases/latest /latest.json
+
+RUN set -eo pipefail; \
+    V="$MINIPAVI_VERSION"; \
+    if [ -z "$V" ] || [ "$V" = latest ]; then V=$(sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' /latest.json); fi; \
+    [ -n "$V" ] || { echo "Version de MiniPavi introuvable" >&2; exit 1; }; \
+    wget -qO- "https://github.com/ludosevilla/minipavi/archive/$V.tar.gz" | tar xz; \
+    mv minipavi-* /src; \
+    echo "$V" > /src/VERSION
+
+# --- Étape 2 : l'émulateur
+# https://hub.docker.com/r/trafex/php-nginx
+FROM trafex/php-nginx:latest
+
+# Ajout au site de la dernière version du robots.txt anti-AI
+# https://github.com/ai-robots-txt/ai.robots.txt
+RUN wget https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/refs/heads/main/robots.txt -O /var/www/html/robots.txt
+
+# Copie des données du site Minitel (modifiables par "nobody" : l'adresse de la passerelle y est écrite au démarrage)
+COPY --from=src --chown=nobody /src/emulminitel/. /var/www/html/
+COPY --from=src /src/VERSION /MINIPAVI_VERSION
+COPY commun/start-web.sh commun/render-conf.php /
+
+ENTRYPOINT ["/start-web.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
