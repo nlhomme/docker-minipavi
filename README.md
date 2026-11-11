@@ -80,10 +80,14 @@ Si une variable obligatoire manque, le conteneur s'arrête aussitôt et le dit d
 
 Deux ressources, toutes deux branchées sur ce dépôt :
 
-| Ressource | Dockerfile Location |
-|---|---|
-| Passerelle | `/Dockerfile-minipavi` |
-| Émulateur | `/Dockerfile-emulminitel` |
+| Ressource | Dockerfile Location | Ports Exposés |
+|---|---|---|
+| Passerelle | `/Dockerfile-minipavi` | `8181` (websocket, ou la valeur de `MINIPAVI_WS_PORT`) et `8080` (VisuWeb) |
+| Émulateur | `/Dockerfile-emulminitel` | `8080` |
+
+Coolify ne trouve pas ces Dockerfiles tout seul (il cherche un fichier nommé `Dockerfile`) : choisir le build pack **Dockerfile** à la main, puis renseigner « Dockerfile Location ».
+
+**« Ports Exposés » est à renseigner à la main.** Pour un dépôt Git, Coolify ne lit pas le port dans le Dockerfile : il propose `3000` par défaut. Avec un mauvais port, le conteneur tourne mais le site répond par une erreur 502.
 
 Dans les variables d'environnement de chaque ressource :
 
