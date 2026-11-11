@@ -1,0 +1,110 @@
+# Les cinq images de MiniPavi, lancées ensemble. Documentation : Documentation/30-docker-compose.md
+#
+#   cp .env.example .env        puis renseigner au moins MINIPAVI_HTTP_PASSWORD
+#   docker compose up -d --build
+#
+# Sans option, seuls la passerelle et l'émulateur démarrent. Les autres images sont des profils :
+#   docker compose --profile accueil-extcall --profile webmedia --profile asterisk up -d --build
+#
+# Les valeurs viennent du fichier .env ; une variable absente ou vide prend la valeur par défaut de l'image.
+# Ce fichier doit rester équivalent aux Dockerfiles et à la documentation (voir CLAUDE.md) : ./test.sh le contrôle.
+
+x-build-args: &build-args
+  # La même version de MiniPavi pour toutes les images (voir Documentation/01-version-minipavi.md)
+  MINIPAVI_VERSION: ${MINIPAVI_VERSION:-latest}
+
+services:
+  # La passerelle : websocket sur 8181, VisuWeb et WebMedia sur 8080
+  minipavi:
+    build:
+      context: .
+      dockerfile: minipavi/Dockerfile
+      args: *build-args
+    restart: unless-stopped
+    ports:
+      - "8181:8181"
+      - "8080:8080"
+    environment:
+      MINIPAVI_HTTP_PASSWORD: ${MINIPAVI_HTTP_PASSWORD:?Renseigner MINIPAVI_HTTP_PASSWORD dans le fichier .env}
+      MINIPAVI_VIEWER_URL: ${MINIPAVI_VIEWER_URL:-http://localhost:8081/}
+      MINIPAVI_HTTP_USER: ${MINIPAVI_HTTP_USER:-}
+      MINIPAVI_DEFAULT_URL: ${MINIPAVI_DEFAULT_URL:-}
+      MINIPAVI_EXTCALL_URL: ${MINIPAVI_EXTCALL_URL:-}
+      MINIPAVI_WS_PORT: ${MINIPAVI_WS_PORT:-}
+      MINIPAVI_HOST: ${MINIPAVI_HOST:-}
+      MINIPAVI_VERBOSE: ${MINIPAVI_VERBOSE:-}
+      MINIPAVI_CONNECT_KEY: ${MINIPAVI_CONNECT_KEY:-}
+      MINIPAVI_VISU_KEY: ${MINIPAVI_VISU_KEY:-}
+      # Avec le profil asterisk
+      MINIPAVI_AST_PORT: ${MINIPAVI_AST_PORT:-}
+      MINIPAVI_AMI_HOST: ${MINIPAVI_AMI_HOST:-}
+      MINIPAVI_AMI_PORT: ${MINIPAVI_AMI_PORT:-}
+      MINIPAVI_AMI_USER: ${MINIPAVI_AMI_USER:-}
+      MINIPAVI_AMI_PASSWORD: ${MINIPAVI_AMI_PASSWORD:-}
+      MINIPAVI_SIP_CHANNEL: ${MINIPAVI_SIP_CHANNEL:-}
+
+  # L'émulateur Minitel : page web sur 8081
+  emulminitel:
+    build:
+      context: .
+      dockerfile: emulminitel/Dockerfile
+      args: *build-args
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    environment:
+      GATEWAY_URL: ${GATEWAY_URL:-ws://localhost:8181/}
+      WEBMEDIA_URL: ${WEBMEDIA_URL:-http://localhost:8080?action=webmedia}
+
+  # La page WebMedia : page web sur 8082
+  webmedia:
+    profiles: [webmedia]
+    build:
+      context: .
+      dockerfile: webmedia/Dockerfile
+      args: *build-args
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
+    environment:
+      WEBMEDIA_URL: ${WEBMEDIA_URL:-http://localhost:8080?action=webmedia}
+
+  # Les services d'accueil et EXTcall : joints par la passerelle seulement, aucun port publié
+  accueil-extcall:
+    profiles: [accueil-extcall]
+    build:
+      context: .
+      dockerfile: accueil-extcall/Dockerfile
+      args: *build-args
+    restart: unless-stopped
+    environment:
+      MINIPAVI_CONNECT_KEY: ${MINIPAVI_CONNECT_KEY:-}
+
+  # Le serveur téléphonique : SIP et voix en UDP, publiés sur la machine. L'AMI (5038) n'est pas publiée.
+  asterisk:
+    profiles: [asterisk]
+    build:
+      context: .
+      dockerfile: asterisk/Dockerfile
+      args:
+        <<: *build-args
+        ASTERISK_VERSION: ${ASTERISK_VERSION:-22}
+    restart: unless-stopped
+    ports:
+      - "5060:5060/udp"
+      - "10000-10100:10000-10100/udp"
+    environment:
+      SIP_SERVER: ${SIP_SERVER:-}
+      SIP_USERNAME: ${SIP_USERNAME:-}
+      SIP_PASSWORD: ${SIP_PASSWORD:-}
+      ASTERISK_EXTERNAL_ADDRESS: ${ASTERISK_EXTERNAL_ADDRESS:-}
+      ASTERISK_LOCAL_NET: ${ASTERISK_LOCAL_NET:-}
+      # La passerelle, par son nom de service
+      MINIPAVI_HOST: minipavi
+      # Les valeurs communes avec la passerelle ne sont écrites qu'une fois dans .env
+      MINIPAVI_AST_PORT: ${MINIPAVI_AST_PORT:-}
+      AMI_USER: ${MINIPAVI_AMI_USER:-}
+      AMI_PASSWORD: ${MINIPAVI_AMI_PASSWORD:-}
+      AMI_PERMIT: ${AMI_PERMIT:-}
+      RTP_START: ${RTP_START:-}
+      RTP_END: ${RTP_END:-}

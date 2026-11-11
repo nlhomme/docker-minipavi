@@ -1,0 +1,11 @@
+;
+; RTP Configuration
+;
+; Modèle : les ${VARIABLES} sont remplacées au démarrage du conteneur (voir Documentation/14-asterisk.md).
+; Ces ports UDP doivent être publiés par le conteneur.
+;
+[general]
+rtpstart=${RTP_START}
+rtpend=${RTP_END}
+rtpchecksums=yes
+strictrtp=no
