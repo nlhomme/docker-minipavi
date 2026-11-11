@@ -1,6 +1,6 @@
 ; PJSIP Configuration
 ;
-; Modèle : les ${VARIABLES} sont remplacées au démarrage du conteneur (voir Documentation/14-asterisk.md).
+; Modèle : les ${VARIABLES} sont remplacées au démarrage du conteneur (voir documentation/14-asterisk.md).
 ; Repris de l'exemple fourni avec MiniPavi (ligne SIP unique, ici nommée "trunk").
 ;
 ; UDP transport behind NAT

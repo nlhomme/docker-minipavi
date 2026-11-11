@@ -24,7 +24,7 @@ function render_conf(string $template): string
         } elseif (isset($m[2])) {
             $value = $m[2];
         } else {
-            fwrite(STDERR, "Variable d'environnement manquante : {$m[1]} (voir Documentation/)\n");
+            fwrite(STDERR, "Variable d'environnement manquante : {$m[1]} (voir documentation/)\n");
             exit(1);
         }
         return htmlspecialchars($value, ENT_XML1);

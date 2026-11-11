@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modèle de configuration de la passerelle : les variables d'environnement sont expliquées dans Documentation/10-passerelle.md -->
+<!-- Modèle de configuration de la passerelle : les variables d'environnement sont expliquées dans documentation/10-passerelle.md -->
 <config>
 	<general>
 		<host>${MINIPAVI_HOST:-127.0.0.1}</host>			<!-- Adresse de connexion au serveur, sans le port (si locale, certains services de visuweb ne fonctionneront qu'en local) -->

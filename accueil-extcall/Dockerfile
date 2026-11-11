@@ -2,7 +2,7 @@
 # NAME             : nlhomme/nlhomme-accueil-extcall
 # TO_BUILD         : docker build --rm -t nlhomme/nlhomme-accueil-extcall:latest . -f accueil-extcall/Dockerfile
 # TO_RUN           : docker run --rm -d nlhomme/nlhomme-accueil-extcall:latest
-# Variables        : voir Documentation/13-accueil-extcall.md
+# Variables        : voir documentation/13-accueil-extcall.md
 ##
 
 # --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)
