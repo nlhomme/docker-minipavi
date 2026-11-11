@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Serveurs externes joignables par le service EXTcall.
-La clé est celle de la passerelle (même variable MINIPAVI_CONNECT_KEY). Voir Documentation/13-accueil-extcall.md
+La clé est celle de la passerelle (même variable MINIPAVI_CONNECT_KEY). Voir documentation/13-accueil-extcall.md
 La liste ci-dessous est l'exemple fourni avec MiniPavi : à adapter.
 Les serveurs de type "tel" (appel téléphonique) demandent un serveur Asterisk.
 -->

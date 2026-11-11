@@ -28,7 +28,7 @@ replace() {
 
 # Adresse websocket de la passerelle
 if [ -n "$(files_with "$WS_EXAMPLE")" ]; then
-    : "${GATEWAY_URL:?Variable GATEWAY_URL manquante, ex. wss://passerelle.exemple.org:443/ (voir Documentation/)}"
+    : "${GATEWAY_URL:?Variable GATEWAY_URL manquante, ex. wss://passerelle.exemple.org:443/ (voir documentation/)}"
     # L'adresse est écrite dans du PHP : on refuse tout caractère inattendu
     echo "$GATEWAY_URL" | grep -Eq '^wss?://[A-Za-z0-9.:/_-]+$' \
         || { echo "GATEWAY_URL invalide : $GATEWAY_URL" >&2; exit 1; }
@@ -38,7 +38,7 @@ fi
 # Adresse WebMedia de la passerelle : par défaut, celle de la passerelle en http(s)
 if [ -n "$(files_with "$WM_EXAMPLE")" ]; then
     if [ -z "${WEBMEDIA_URL:-}" ]; then
-        : "${GATEWAY_URL:?Variable WEBMEDIA_URL manquante, ex. https://visuweb.exemple.org?action=webmedia (voir Documentation/)}"
+        : "${GATEWAY_URL:?Variable WEBMEDIA_URL manquante, ex. https://visuweb.exemple.org?action=webmedia (voir documentation/)}"
         WEBMEDIA_URL="$(echo "${GATEWAY_URL%/}" | sed 's/^ws/http/')?action=webmedia"
     fi
     echo "$WEBMEDIA_URL" | grep -Eq '^https?://[A-Za-z0-9.:/_?=&-]+$' \

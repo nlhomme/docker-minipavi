@@ -2,7 +2,7 @@
 # NAME             : nlhomme/nlhomme-minipavi
 # TO_BUILD         : docker build --rm -t nlhomme/nlhomme-minipavi:latest . -f minipavi/Dockerfile
 # TO_RUN           : docker run --rm -d -e MINIPAVI_HTTP_PASSWORD=... -e MINIPAVI_VIEWER_URL=... nlhomme/nlhomme-minipavi:latest
-# Variables        : voir Documentation/10-passerelle.md
+# Variables        : voir documentation/10-passerelle.md
 ##
 
 # --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)

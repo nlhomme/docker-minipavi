@@ -10,7 +10,7 @@ V="${1:-latest}"
 WITH_ASTERISK="${2:-}"
 
 # docker-compose.yml et la documentation doivent suivre les Dockerfiles (voir CLAUDE.md) :
-# chaque Dockerfile a son service, chaque variable des images y figure et est documentée dans Documentation/
+# chaque Dockerfile a son service, chaque variable des images y figure et est documentée dans documentation/
 echo "docker-compose.yml et docs"
 missing() { echo "$1 : $2 absent" >&2; exit 1; }
 for dockerfile in */Dockerfile; do
@@ -25,7 +25,7 @@ variables=$({
 } | sort -u)
 for variable in $variables; do
     grep -q "^ *$variable:" docker-compose.yml || missing docker-compose.yml "$variable"
-    grep -rq "\`$variable\`" Documentation/ || missing Documentation/ "$variable"
+    grep -rq "\`$variable\`" documentation/ || missing documentation/ "$variable"
 done
 MINIPAVI_HTTP_PASSWORD=x docker compose --profile webmedia --profile accueil-extcall --profile asterisk config --quiet
 

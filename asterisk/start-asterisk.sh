@@ -6,12 +6,12 @@ set -eu
 echo "MiniPavi version $(cat /MINIPAVI_VERSION)"
 
 # Variables obligatoires
-: "${SIP_SERVER:?Variable SIP_SERVER manquante : serveur du fournisseur SIP, ex. sip.exemple.org (voir Documentation/14-asterisk.md)}"
-: "${SIP_USERNAME:?Variable SIP_USERNAME manquante : identifiant de la ligne SIP (voir Documentation/14-asterisk.md)}"
-: "${SIP_PASSWORD:?Variable SIP_PASSWORD manquante : mot de passe de la ligne SIP (voir Documentation/14-asterisk.md)}"
-: "${ASTERISK_EXTERNAL_ADDRESS:?Variable ASTERISK_EXTERNAL_ADDRESS manquante : adresse publique du serveur (voir Documentation/14-asterisk.md)}"
-: "${MINIPAVI_HOST:?Variable MINIPAVI_HOST manquante : adresse de la passerelle MiniPavi (voir Documentation/14-asterisk.md)}"
-: "${AMI_PASSWORD:?Variable AMI_PASSWORD manquante : mot de passe de l AMI, le même que MINIPAVI_AMI_PASSWORD (voir Documentation/14-asterisk.md)}"
+: "${SIP_SERVER:?Variable SIP_SERVER manquante : serveur du fournisseur SIP, ex. sip.exemple.org (voir documentation/14-asterisk.md)}"
+: "${SIP_USERNAME:?Variable SIP_USERNAME manquante : identifiant de la ligne SIP (voir documentation/14-asterisk.md)}"
+: "${SIP_PASSWORD:?Variable SIP_PASSWORD manquante : mot de passe de la ligne SIP (voir documentation/14-asterisk.md)}"
+: "${ASTERISK_EXTERNAL_ADDRESS:?Variable ASTERISK_EXTERNAL_ADDRESS manquante : adresse publique du serveur (voir documentation/14-asterisk.md)}"
+: "${MINIPAVI_HOST:?Variable MINIPAVI_HOST manquante : adresse de la passerelle MiniPavi (voir documentation/14-asterisk.md)}"
+: "${AMI_PASSWORD:?Variable AMI_PASSWORD manquante : mot de passe de l AMI, le même que MINIPAVI_AMI_PASSWORD (voir documentation/14-asterisk.md)}"
 
 # Variables avec valeur par défaut
 : "${MINIPAVI_AST_PORT:=8183}"

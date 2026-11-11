@@ -10,11 +10,11 @@ MiniPavi est fait de cinq parties ; chacune a son Dockerfile. Seule la passerell
 
 | Image | Dockerfile | Rôle | Nécessaire ? |
 |---|---|---|---|
-| [Passerelle](Documentation/10-passerelle.md) | `minipavi/Dockerfile` | Le point d'accès : reçoit les connexions des Minitel et appelle les services | oui |
-| [Émulateur](Documentation/11-emulateur.md) | `emulminitel/Dockerfile` | Page web affichant un Minitel dans le navigateur | pour un accès par le web |
-| [WebMedia](Documentation/12-webmedia.md) | `webmedia/Dockerfile` | Page web affichant les vidéos, sons et images envoyés par un service | si des services utilisent WebMedia |
-| [Accueil et EXTcall](Documentation/13-accueil-extcall.md) | `accueil-extcall/Dockerfile` | Les deux services fournis avec MiniPavi : page d'accueil avec annuaire, et connexion à des serveurs Minitel externes | facultatif |
-| [Asterisk](Documentation/14-asterisk.md) | `asterisk/Dockerfile` | Serveur téléphonique avec modem logiciel V23 : accès par téléphone avec un vrai Minitel | pour un accès par téléphone |
+| [Passerelle](documentation/10-passerelle.md) | `minipavi/Dockerfile` | Le point d'accès : reçoit les connexions des Minitel et appelle les services | oui |
+| [Émulateur](documentation/11-emulateur.md) | `emulminitel/Dockerfile` | Page web affichant un Minitel dans le navigateur | pour un accès par le web |
+| [WebMedia](documentation/12-webmedia.md) | `webmedia/Dockerfile` | Page web affichant les vidéos, sons et images envoyés par un service | si des services utilisent WebMedia |
+| [Accueil et EXTcall](documentation/13-accueil-extcall.md) | `accueil-extcall/Dockerfile` | Les deux services fournis avec MiniPavi : page d'accueil avec annuaire, et connexion à des serveurs Minitel externes | facultatif |
+| [Asterisk](documentation/14-asterisk.md) | `asterisk/Dockerfile` | Serveur téléphonique avec modem logiciel V23 : accès par téléphone avec un vrai Minitel | pour un accès par téléphone |
 
 ## Démarrage rapide
 
@@ -32,7 +32,7 @@ Ouvrir ensuite `http://localhost:8081/` : le Minitel s'affiche et se connecte à
 
 Pour arrêter : `docker compose down`.
 
-Les trois autres images s'ajoutent par des profils : voir [Documentation/30-docker-compose.md](Documentation/30-docker-compose.md). Chaque image peut aussi être lancée seule avec `docker run`, comme décrit dans son article.
+Les trois autres images s'ajoutent par des profils : voir [documentation/30-docker-compose.md](documentation/30-docker-compose.md). Chaque image peut aussi être lancée seule avec `docker run`, comme décrit dans son article.
 
 ## Organisation du dépôt
 
@@ -48,17 +48,17 @@ Un dossier par image, portant le nom technique de l'image (celui de MiniPavi, ut
 | `commun/` | Les scripts de démarrage partagés par plusieurs images |
 | `docker-compose.yml`, `.env.example` | Les cinq images lancées ensemble, et le modèle de leurs réglages |
 | `test.sh` | La vérification des images |
-| `Documentation/` | La documentation |
+| `documentation/` | La documentation |
 
 ## ⚠️ La version de MiniPavi n'est pas figée
 
 Par défaut, chaque construction d'image installe **la dernière release de MiniPavi**. Une reconstruction peut donc changer de version sans que personne ne l'ait décidé, et installer une release que personne n'a essayée ici.
 
-Pour imposer une version : `--build-arg MINIPAVI_VERSION=1.6.1`. Les conséquences et la marche à suivre en cas de problème sont dans [Documentation/01-version-minipavi.md](Documentation/01-version-minipavi.md).
+Pour imposer une version : `--build-arg MINIPAVI_VERSION=1.6.1`. Les conséquences et la marche à suivre en cas de problème sont dans [documentation/01-version-minipavi.md](documentation/01-version-minipavi.md).
 
 ## Documentation
 
-Tout le reste est dans le dossier [Documentation/](Documentation/README.md) : la version, les liaisons entre images, un article par image, la vérification, le dépannage, le lancement avec Docker Compose et l'hébergement dans Coolify.
+Tout le reste est dans le dossier [documentation/](documentation/README.md) : la version, les liaisons entre images, un article par image, la vérification, le dépannage, le lancement avec Docker Compose et l'hébergement dans Coolify.
 
 ## Licence
 

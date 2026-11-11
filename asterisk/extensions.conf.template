@@ -1,7 +1,7 @@
 ; extensions.conf - the Asterisk dial plan
 ;
 ; Modèle : seules ${MINIPAVI_HOST} et ${MINIPAVI_AST_PORT} sont remplacées au démarrage du conteneur
-; (voir Documentation/14-asterisk.md). Les autres ${...} sont des variables d'Asterisk et restent telles quelles.
+; (voir documentation/14-asterisk.md). Les autres ${...} sont des variables d'Asterisk et restent telles quelles.
 ; Repris de l'exemple fourni avec MiniPavi.
 
 [general]

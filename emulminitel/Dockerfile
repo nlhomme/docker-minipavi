@@ -2,7 +2,7 @@
 # NAME             : nlhomme/nlhomme-emulminitel
 # TO_BUILD         : docker build --rm -t nlhomme/nlhomme-emulminitel:latest . -f emulminitel/Dockerfile
 # TO_RUN           : docker run --rm -d -e GATEWAY_URL=wss://passerelle.exemple.org:443/ nlhomme/nlhomme-emulminitel:latest
-# Variables        : voir Documentation/11-emulateur.md
+# Variables        : voir documentation/11-emulateur.md
 ##
 
 # --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)

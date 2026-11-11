@@ -1,4 +1,4 @@
-# Les cinq images de MiniPavi, lancées ensemble. Documentation : Documentation/30-docker-compose.md
+# Les cinq images de MiniPavi, lancées ensemble. Documentation : documentation/30-docker-compose.md
 #
 #   cp .env.example .env        puis renseigner au moins MINIPAVI_HTTP_PASSWORD
 #   docker compose up -d --build
@@ -10,7 +10,7 @@
 # Ce fichier doit rester équivalent aux Dockerfiles et à la documentation (voir CLAUDE.md) : ./test.sh le contrôle.
 
 x-build-args: &build-args
-  # La même version de MiniPavi pour toutes les images (voir Documentation/01-version-minipavi.md)
+  # La même version de MiniPavi pour toutes les images (voir documentation/01-version-minipavi.md)
   MINIPAVI_VERSION: ${MINIPAVI_VERSION:-latest}
 
 services:

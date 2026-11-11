@@ -6,7 +6,7 @@ The owner is a DevOps engineer, not a programmer. Documentation, comments and lo
 
 ## Rule: the documentation must ALWAYS be up to date
 
-Any change to the repo that alters what a reader would do or expect must update the documentation **in the same change**, never later. That covers `README.md`, every article in `Documentation/`, `.env.example`, and the comments in the Dockerfiles, scripts and templates.
+Any change to the repo that alters what a reader would do or expect must update the documentation **in the same change**, never later. That covers `README.md`, every article in `documentation/`, `.env.example`, and the comments in the Dockerfiles, scripts and templates.
 
 - Before finishing a change, ask: does any sentence, table, command or example in the documentation now say something false or incomplete? If yes, fix it now.
 - A new file, image, variable, port, profile, script or log message is not done until it is documented.
@@ -42,19 +42,19 @@ So whenever one side changes, update the other in the same change:
 
 The documentation is part of the same contract. In the same change, update:
 
-- the article of the image in `Documentation/` (`10-` to `14-`), which documents the standalone way;
-- `Documentation/02-liaisons.md` if a variable links two images;
-- `Documentation/30-docker-compose.md` and `Documentation/31-hebergement-coolify.md` if ports, profiles or variables change;
-- `Documentation/21-depannage.md` if a log message is added or reworded.
+- the article of the image in `documentation/` (`10-` to `14-`), which documents the standalone way;
+- `documentation/02-liaisons.md` if a variable links two images;
+- `documentation/30-docker-compose.md` and `documentation/31-hebergement-coolify.md` if ports, profiles or variables change;
+- `documentation/21-depannage.md` if a log message is added or reworded.
 
 ## Check
 
-Run `./test.sh` after any such change (`./test.sh latest asterisk` when the Asterisk image or its templates are touched). Its first step fails if a Dockerfile has no service in `docker-compose.yml`, or if a variable of the images is missing from `docker-compose.yml` or from `Documentation/`. That static check does not compare ports or default values: check those by hand.
+Run `./test.sh` after any such change (`./test.sh latest asterisk` when the Asterisk image or its templates are touched). Its first step fails if a Dockerfile has no service in `docker-compose.yml`, or if a variable of the images is missing from `docker-compose.yml` or from `documentation/`. That static check does not compare ports or default values: check those by hand.
 
 ## Conventions
 
 - One folder per image, named after its `docker-compose.yml` service (`minipavi`, `emulminitel`, `webmedia`, `accueil-extcall`, `asterisk`), holding its `Dockerfile` and everything only that image uses. Files shared by several images go in `commun/`. The repo root keeps only what concerns the whole repo.
 - The build context is always the repo root (`docker build -f <image>/Dockerfile .`), because of `commun/`.
-- Service articles (`Documentation/10-` to `14-`) describe plain Docker only. Anything specific to a host goes in its own article (`Documentation/3x-`).
-- `MINIPAVI_VERSION` defaults to the latest upstream release on purpose; the warning about it in `README.md` and `Documentation/01-version-minipavi.md` must stay.
+- Service articles (`documentation/10-` to `14-`) describe plain Docker only. Anything specific to a host goes in its own article (`documentation/3x-`).
+- `MINIPAVI_VERSION` defaults to the latest upstream release on purpose; the warning about it in `README.md` and `documentation/01-version-minipavi.md` must stay.
 - Never commit secrets: values come from environment variables; `.env` is git-ignored.

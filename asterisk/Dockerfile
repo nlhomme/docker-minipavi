@@ -1,8 +1,8 @@
 ##
 # NAME             : nlhomme/nlhomme-asterisk-minipavi
 # TO_BUILD         : docker build --rm -t nlhomme/nlhomme-asterisk-minipavi:latest . -f asterisk/Dockerfile
-# TO_RUN           : voir Documentation/14-asterisk.md (ports UDP à publier, variables obligatoires)
-# Variables        : voir Documentation/14-asterisk.md
+# TO_RUN           : voir documentation/14-asterisk.md (ports UDP à publier, variables obligatoires)
+# Variables        : voir documentation/14-asterisk.md
 ##
 
 # --- Étape 1 : téléchargement de MiniPavi (https://github.com/ludosevilla/minipavi)
