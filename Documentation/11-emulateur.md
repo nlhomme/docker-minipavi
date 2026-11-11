@@ -37,6 +37,10 @@ Sans `WEBMEDIA_URL`, l'adresse WebMedia est déduite de `GATEWAY_URL` (`ws` devi
 
 Les fichiers de MiniPavi contiennent une adresse d'exemple (`mapasserelleminipavi.com`). Au démarrage, le conteneur la remplace par `GATEWAY_URL` et `WEBMEDIA_URL`. S'il reste une adresse d'exemple après ce remplacement, c'est qu'une nouvelle version de MiniPavi a changé ses fichiers : le conteneur s'arrête et le dit dans ses logs.
 
+## Contrôle de santé
+
+Celui de l'image de base (`trafex/php-nginx`) : le serveur web et PHP doivent répondre dans le conteneur.
+
 ## Vérifier
 
 Ouvrir la page : le Minitel s'affiche, et l'adresse de la passerelle est écrite sous l'écran. Si l'écran reste vide, vérifier que cette adresse est bien joignable depuis le navigateur.

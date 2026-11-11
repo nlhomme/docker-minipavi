@@ -40,11 +40,11 @@ Un dossier par image, portant le nom technique de l'image (celui de MiniPavi, ut
 
 | Dossier ou fichier | Contenu |
 |---|---|
-| `minipavi/` | La passerelle : son Dockerfile, son fichier de configuration, son script de démarrage |
+| `minipavi/` | La passerelle : son Dockerfile, son fichier de configuration, son script de démarrage, son contrôle de santé |
 | `emulminitel/` | L'émulateur : son Dockerfile |
 | `webmedia/` | La page WebMedia : son Dockerfile |
 | `accueil-extcall/` | Les services d'accueil et EXTcall : leur Dockerfile et leurs fichiers de configuration |
-| `asterisk/` | Le serveur téléphonique : son Dockerfile, ses fichiers de configuration, son script de démarrage |
+| `asterisk/` | Le serveur téléphonique : son Dockerfile, ses fichiers de configuration, son script de démarrage, son contrôle de santé |
 | `commun/` | Les scripts de démarrage partagés par plusieurs images |
 | `docker-compose.yml`, `.env.example` | Les cinq images lancées ensemble, et le modèle de leurs réglages |
 | `test.sh` | La vérification des images |

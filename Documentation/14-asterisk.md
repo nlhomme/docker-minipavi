@@ -81,6 +81,12 @@ Le dossier `asterisk/` contient les quatre fichiers de configuration, repris des
 
 Deux différences entre `pjsip.conf.template` et l'exemple de MiniPavi : la ligne s'appelle `trunk` (et non `ovh1`), et le mot de passe n'est plus écrit dans l'adresse `client_uri`, seulement dans la section d'authentification. Selon le fournisseur, ce fichier peut demander des ajustements.
 
+## Contrôle de santé
+
+Toutes les 30 secondes, Docker lance `asterisk/healthcheck.sh` dans le conteneur : Asterisk doit répondre à sa propre ligne de commande. Après trois échecs de suite, le conteneur est marqué `unhealthy`.
+
+Ce contrôle dit qu'Asterisk tourne, pas que la ligne SIP est enregistrée : un conteneur `healthy` peut ne recevoir aucun appel si le fournisseur refuse l'identifiant ou si les ports UDP ne sont pas ouverts.
+
 ## Vérifier
 
 ```bash

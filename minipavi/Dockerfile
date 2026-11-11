@@ -37,6 +37,9 @@ COPY --from=src /src/lib lib
 RUN mkdir logs recordings sockets stats
 
 # Configuration : écrite au démarrage à partir des variables d'environnement
-COPY minipavi/minipavi.conf.template minipavi/start-minipavi.php commun/render-conf.php ./
+COPY minipavi/minipavi.conf.template minipavi/start-minipavi.php minipavi/healthcheck.php commun/render-conf.php ./
+
+# Contrôle de santé : la passerelle doit répondre sur son port VisuWeb/WebMedia (voir healthcheck.php)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD ["php", "/usr/src/minipavi/healthcheck.php"]
 
 CMD [ "php", "./start-minipavi.php" ]

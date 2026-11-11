@@ -38,3 +38,4 @@ Les images fonctionnent avec n'importe quel hébergement Docker. Ces deux articl
 - **Une variable obligatoire manquante arrête le conteneur** aussitôt, avec un message dans ses logs.
 - **Les fichiers `*.template` du dépôt sont des modèles** de fichiers de configuration : au démarrage, les `${VARIABLES}` y sont remplacées par les variables d'environnement. Le reste de leur contenu se modifie directement dans le dépôt.
 - **Chaque conteneur affiche la version de MiniPavi** en première ligne de ses logs : `MiniPavi version 1.6.1`.
+- **Chaque image déclare un contrôle de santé** : `docker ps` affiche `(healthy)` quand le conteneur fonctionne, `(unhealthy)` quand il ne répond plus. Les hébergeurs comme Coolify s'en servent pour savoir si un déploiement a réussi.
